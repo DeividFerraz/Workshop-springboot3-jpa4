@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,6 +28,8 @@ public class User implements Serializable{//serve para o objeto trafegar na rede
 	private String phone;
 	private String password;
 	
+	@JsonIgnore//Serve para nao gerar um lopping infinito entre as classes no postman
+	//e aonde colocado ele tras os pedidos associados a essa entidade
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
@@ -38,8 +42,8 @@ public class User implements Serializable{//serve para o objeto trafegar na rede
 		this.id = id;
 		this.name = name;
 		this.email = email;
-		this.password = password;
 		this.phone = phone;
+		this.password = password;
 	}
 
 	public Long getId() {
