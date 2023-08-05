@@ -3,7 +3,6 @@ package com.educandoweb.course.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -16,28 +15,25 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_user")
-public class User implements Serializable{//serve para o objeto trafegar na rede, e ver arquivos
+public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	
+
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//para alto incremento
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
 	private String email;
 	private String phone;
 	private String password;
-	
-	@JsonIgnore//Serve para nao gerar um lopping infinito entre as classes no postman
-	//e aonde colocado ele tras os pedidos associados a essa entidade
+
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
 	public User() {
-		
 	}
 
-	public User(Long id, String name, String email,String phone, String password) {
+	public User(Long id, String name, String email, String phone, String password) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -70,6 +66,14 @@ public class User implements Serializable{//serve para o objeto trafegar na rede
 		this.email = email;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public String getPassword() {
 		return password;
 	}
@@ -78,22 +82,16 @@ public class User implements Serializable{//serve para o objeto trafegar na rede
 		this.password = password;
 	}
 
-		
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-	
 	public List<Order> getOrders() {
 		return orders;
 	}
-
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -105,7 +103,11 @@ public class User implements Serializable{//serve para o objeto trafegar na rede
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(id, other.id);
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
 	}
-
 }
