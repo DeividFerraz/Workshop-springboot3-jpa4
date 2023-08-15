@@ -24,4 +24,7 @@ public class OrderService {
 		Optional<Order> obj = repository.findById(id);
 		return obj.get();
 	}
+	public Order insert(Order obj) {
+		return repository.save(obj);//operação para inserir no banco de dados um objeto do tipo user
+	}
 }

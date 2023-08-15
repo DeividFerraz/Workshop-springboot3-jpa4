@@ -21,17 +21,33 @@ import com.educandoweb.course.repositories.OrderRepository;
 import com.educandoweb.course.repositories.ProductRepository;
 import com.educandoweb.course.repositories.UserRepository;
 
-@Configuration
-@Profile("test")
-public class TestConfig implements CommandLineRunner {
+@Configuration//anotation usada para dizer 
+//ao Spring que essa é uma classe de configuração
+@Profile("test")//dizendo que a classe é uma conf 
+//especifica para o perfil de teste, sendo esse nome 
+//identico ao nome test do profile
+public class TestConfig implements CommandLineRunner {/*metodo de classe 
+muito usado para fazer testes na aplicação
+por enquanto essa classe serve para fazer o database 
+seeding, ou seja popular noss banco de dados*/ 
 
-	@Autowired
+	@Autowired/*Primeiro caso de injeção de dependencia, 
+	essa clase precisa ter uma dependencia para a 
+	interface UserRepository, pois é essa interface 
+	que salva os dados no banco*/
 	private UserRepository userRepository;
 
-	@Autowired
+	@Autowired/*Quando um serviço depende de outro 
+	essa dependencia precisa ser fraca, ou seja 
+	desacoplada, entao essa injeção de dependencia 
+	desacoplada deve ser feita usando essa anptation 
+	quando estivermos usando o JPA*/
 	private OrderRepository orderRepository;
 
-	@Autowired
+	@Autowired/*Então essa anotation é usada para 
+	fazer essa classe "tesConfig" depender da 
+	interface Que for chamada o nome no caso a 
+	CategoryRepository*/
 	private CategoryRepository categoryRepository;
 
 	@Autowired
@@ -41,7 +57,9 @@ public class TestConfig implements CommandLineRunner {
 	private OrderItemRepository orderItemRepository;
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) throws Exception {/*
+	tudo que por ai vai rodar, usando a implementação, 
+	"CommandLineRun*/
 
 		Category cat1 = new Category(null, "Electronics");
 		Category cat2 = new Category(null, "Books");
@@ -56,7 +74,7 @@ public class TestConfig implements CommandLineRunner {
 		categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
 		productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
 
-		p1.getCategories().add(cat2);
+		p1.getCategories().add(cat2);//associação entrer objetos
 		p2.getCategories().add(cat1);
 		p2.getCategories().add(cat3);
 		p3.getCategories().add(cat3);
@@ -72,7 +90,10 @@ public class TestConfig implements CommandLineRunner {
 		Order o2 = new Order(null, Instant.parse("2019-07-21T03:42:10Z"), OrderStatus.WAITING_PAYMENT, u2);
 		Order o3 = new Order(null, Instant.parse("2019-07-22T15:21:22Z"), OrderStatus.WAITING_PAYMENT, u1);
 
-		userRepository.saveAll(Arrays.asList(u1, u2));
+		userRepository.saveAll(Arrays.asList(u1, u2));/*
+		UserRepository, acessa os dados e salva. coloco o 
+		Array por que eu passo uma lista de objtos, como nome 
+		email etc*/
 		orderRepository.saveAll(Arrays.asList(o1, o2, o3));
 
 		OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());

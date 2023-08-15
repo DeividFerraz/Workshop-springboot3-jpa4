@@ -9,11 +9,11 @@ import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-@Embeddable
+@Embeddable//por ser uma chave auxiliar de chave primaria eu uso essa anotation
 public class OrderItemPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne
+	@ManyToOne//mto pra um
 	@JoinColumn(name = "order_id")
 	private Order order;
 

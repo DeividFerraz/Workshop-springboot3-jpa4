@@ -30,16 +30,28 @@ public class Order implements Serializable {
 	
 	private Integer orderStatus;
 
-	@ManyToOne
-	@JoinColumn(name = "client_id")
-	private User client;//estou flnd q na tabela de users vou ter uma chave estrangeira que é "client_id" q vai fazer a relçaõ entre tabelas
+	@ManyToOne/*Serve para fazer a relação de chaves estrangeiras, 
+	estou dizendo que tenho uma relação de tabelas de muitos para um 
+	com a classe User*/
+	@JoinColumn(name = "client_id")/*Estou dizendo tmb que nessa chave estrangeira
+	vai a chave primaria da classe "User" ou seja o ID POR ISSO o que fica amostra la na
+	tabela no campo "client_id" é um id.
+	Aqui estou dizendo o nome 
+	da chave estrangeira que vai ter no banco de dados*/
+	private User client;/*criei a variavel client, e estou flnd
+	q 1 cliente pode ter varios pedidos "orders" por isso o ManyToOne
+	Muitos pedidos para um cliente, e salvo o ID do pedido na coluna cliente Id*/
 
-	@OneToMany(mappedBy = "id.order")
-	private Set<OrderItem> items = new HashSet<>();
+	@OneToMany(mappedBy = "id.order")//quero dizer que meu pedido tem uma lista de itens
+	/*o id.order, quer dizer que eu estou acessando o atributo Id ou seja a Variavel ID
+	 * e o .order estou acessando os pedidos que esta relacionado a esse Id e 
+	 * vai vir grudados nesse campo Id no json*/
+	private Set<OrderItem> items = new HashSet<>();//coleção de itemns relacionado a orderitem
 	
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)//Associação 1 para um com a classe paymente e usando o mappedBy para dizer que aquela classe é dependente dessa 	//Mapeando com o mesmo Id é obrigatoria por esse Cascade .all
+	//mapeando relação 1 para 1 para ter o mesmo id.
 	private Payment payment;
-	
+	//estou dizendo q um pedido tem um pagamento
 	
 	public Order() {
 	}
@@ -48,8 +60,8 @@ public class Order implements Serializable {
 		super();
 		this.id = id;
 		this.moment = moment;
-		this.client = client;
 		setOrderStatus(orderStatus);
+		this.client = client;
 	}
 
 	public Long getId() {

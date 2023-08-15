@@ -14,7 +14,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
-@Entity//serve para ser gernciado pelo JPA
+@Entity 
 @Table(name = "tb_category")
 public class Category implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -27,7 +27,10 @@ public class Category implements Serializable{
 	
 	@JsonIgnore//para nao dar luping infinito
 	@ManyToMany(mappedBy = "categories")//peguei da classe Product para fazer relação entre classes
-	private Set<Product> products = new HashSet<>();
+	private Set<Product> products = new HashSet<>();/*
+	dentro da categoria eu tenho um conjunto de produtos, e dentro 
+	de produtos eu tenhoi um conjunto de categorias "manyToMany"
+	muitos para muitos*/
 	
 	public Category() {
 		

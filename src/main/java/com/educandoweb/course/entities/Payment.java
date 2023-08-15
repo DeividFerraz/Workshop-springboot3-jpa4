@@ -24,8 +24,8 @@ public class Payment implements Serializable {
 	private Long id;
 	private Instant moment;
 	
-	@JsonIgnore
-	@OneToOne
+	@JsonIgnore//A classe q vai pendurada.
+	@OneToOne//mapeamento da classe 1' para 1, na classe dependente no caso essa
 	@MapsId
 	private Order order;
 	

@@ -15,7 +15,9 @@ public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private OrderItemPK id = new OrderItemPK();
+	private OrderItemPK id = new OrderItemPK();/*
+	essa é a chave estrangeira que junta as tabelas Order e 
+	products*/
 
 	private Integer quantity;
 	private Double price;

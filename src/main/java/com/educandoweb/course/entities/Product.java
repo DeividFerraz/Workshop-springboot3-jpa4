@@ -30,28 +30,30 @@ public class Product implements Serializable {
 	private String imgUrl;
 
 	@ManyToMany
-	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<Category> categories = new HashSet<>();
-
-	    /*//@Transient //impede que o JPA tente interpretar esse codigo
-		@ManyToMany//colocar para fazer relação entre as tabelas
-		@JoinTable(name = "tb_product_category", 
-		joinColumns = @JoinColumn(name = "product_id"),
-		inverseJoinColumns = @JoinColumn(name = "category_id"))//iversi estou pegando a classe categoria agr para fazer a relação
-		private Set<Category> categories = new HashSet<>();//usando separa que nao repita a categoria, pois a lista faria com que repitisse
-		//Do mesmo jeito  qusa list e arrays lista, esta usando o set e o hash set
-		
-		@OneToMany(mappedBy = "id.product")//declarando coleção de itemns
-		private Set<OrderItem> items = new HashSet<>();
-		*/
+	/*Escolhi a classe produto para fazer o join table
+	 * mas tmb podeira ter escolhido a categorias, pois as duas
+	 * são muitos para muitos*/
 	
+	/*junto com o produto vem pendurado a categoria
+	 */@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id")/*chave estrangeira*/
+	, inverseJoinColumns/*chave estrangeira da outra categoria*/ = @JoinColumn(name = "category_id"))
+	
+	private Set<Category> categories = new HashSet<>();/*
+	nós instanciamos com "new HashSet<>()" para garantir q 
+	a coloção não comece valendo nula, mas sim vazia*/
 		/*
 		 @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
-		//Essa anotation serve para garantir que a hora seja formatado no Json.
+		  Essa anotation serve para garantir que a hora seja formatado no Json.
 		  private Instant moment;
 		 */
 	
-	@OneToMany(mappedBy = "id.product")
+	@OneToMany(mappedBy = "id.product")//quero dizer que meu pedido tem uma lista de itens
+	/*Este "Id" esta pegando a variavel id dessa chamada 
+	 * ""private OrderItemPK id = new OrderItemPK()"" e esse 
+	 * ".products" esta pegando a variavel products dessa chamada -> 
+	 * ""private Product product;""
+	 * o ID esta na classe ""OrderItem"" e o products em ""OrderItemPK""*/
+	
 	private Set<OrderItem> items = new HashSet<>();
 	
 	public Product() {
@@ -110,7 +112,7 @@ public class Product implements Serializable {
 		return categories;
 	}
 
-	@JsonIgnore
+	@JsonIgnore//Ao chamar o order/1 vai vir o producst pendurado no pedido
 	public Set<Order> getOrders() {
 		Set<Order> set = new HashSet<>();
 		for (OrderItem x : items) {
