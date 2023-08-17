@@ -58,7 +58,7 @@ seeding, ou seja popular noss banco de dados*/
 
 	@Override
 	public void run(String... args) throws Exception {/*
-	tudo que por ai vai rodar, usando a implementação, 
+	tudo que por ai vai rodar, usando a implementação 
 	"CommandLineRun*/
 
 		Category cat1 = new Category(null, "Electronics");

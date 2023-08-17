@@ -74,11 +74,9 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-
 	<!-- Nesse arquivo contem as definições das dependencias do projeto, 
 	versoes e instruções de buid, é um arquivo gerenciado pelo maven que 
 	é a ferramento de gerenciamento de builds do java que estou usando
 	Ao colocar a dependencia ai, o mavem faz o dowload delas na internet-->
-
 
 </project>
